@@ -7,6 +7,7 @@ lib: load/library switch/default fourth system/version [
 		3	[%libhpdf.dll]
 	] [%libhpdf.so]
 
+
 ; document
 
 hpdf-new: make routine! [ 
@@ -37,6 +38,42 @@ hpdf-get-font: make routine! [
 	encoding-name [ string! ]
 	return: [ integer! ]
 ] lib "HPDF_GetFont"
+
+
+; image
+
+hpdf-load-jpeg-image-from-file: make routine! [
+	doc [ integer! ]
+    file [ string! ]
+	return: [ integer! ]
+] lib "HPDF_LoadJpegImageFromFile"
+
+hpdf-load-png-image-from-file: make routine! [
+	doc [ integer! ]
+    file [ string! ]
+	return: [ integer! ]
+] lib "HPDF_LoadPngImageFromFile"
+
+
+hpdf-image-get-width: make routine! [
+	image [ integer! ]
+	return: [ integer! ]
+] lib "HPDF_Image_GetWidth"
+
+hpdf-image-get-height: make routine! [
+	image [ integer! ]
+	return: [ integer! ]
+] lib "HPDF_Image_GetHeight"
+
+hpdf-page-draw-image: make routine! [
+	page [ integer! ]
+	image [ integer! ]
+	x [ float ]
+	y [ float ]
+	w [ float ]
+	h [ float ]
+	return: [ integer! ] "status"
+] lib "HPDF_Page_DrawImage"
 
 
 ; page
@@ -323,71 +360,3 @@ pdf-table: make object! [
 		res
     ]
 ]
-
-
-; EXAMPLE
-comment {
-
-doc: hpdf-new "" "" 
-page: hpdf-add-page doc
-hpdf-page-set-size page HPDF-A4 HPDF-PORTRAIT
-
-w: hpdf-page-get-with page
-h: hpdf-page-get-height page
-
-font: hpdf-get-font doc "Helvetica" "CP1250"
-font2: hpdf-get-font doc "Times-Roman" "CP1250"
-
-text: "Hello from rebHaru!!!"
-
-hpdf-page-set-font-and-size page font 30.2
-
-?? doc ?? page ?? w ?? h ?? font 
-
-probe hpdf-page-begin-text page
-
-tw: hpdf-page-text-width page "text"
-
-?? tw
-
-print "pos pos"
-
-pos-struct: make struct! [x [float] y [float]] none
-
-hpdf-page-get-curr-text-pos-2 page pos-struct
-
-?? page 
-?? pos-struct
-
-
-probe hpdf-page-move-text-pos page ((w - tw) / 2) (h / 2)
-
-pos-struct: make struct! [x [float] y [float]] none
-
-hpdf-page-get-curr-text-pos-2 page pos-struct
-
-?? page 
-?? pos-struct
-
-
-probe hpdf-page-show-text page text
-
-hpdf-page-set-font-and-size page font2 20.2
-
-probe hpdf-page-move-text-pos page -150 100
-probe hpdf-page-show-text page "rebHaru PDF likes Šlaviè Èarakterž, mamièku tatièku :)"
-
-pos-struct: make struct! [x [float] y [float]] none
-
-hpdf-page-get-curr-text-pos-2 page pos-struct
-
-?? page 
-?? pos-struct
-
-
-probe hpdf-page-end-text page
-
-hpdf-save-to-file doc "hl-test.pdf"
-hpdf-free doc
-
-halt }
