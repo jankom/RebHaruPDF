@@ -4,7 +4,7 @@ REBOL [
 
 do %haru-pdf.r
 
-doc: hpdf-new "" "" 
+doc: hpdf-new 0 "" 
 page: hpdf-add-page doc
 hpdf-page-set-size page HPDF-A4 HPDF-PORTRAIT
 
@@ -16,6 +16,7 @@ font: hpdf-get-font doc "Times-Roman" "CP1250"
 hpdf-page-set-font-and-size page font 30.2
 
 probe hpdf-page-begin-text page
+
 probe hpdf-page-move-text-pos page (new-x: w * 0.2) (h * 0.8)
 probe hpdf-page-show-text page text: "image sample (jpg and png):"
 

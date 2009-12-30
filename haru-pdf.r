@@ -11,7 +11,7 @@ lib: load/library switch/default fourth system/version [
 ; document
 
 hpdf-new: make routine! [ 
-	err-h [ string! ]
+	err-h [ integer! ]
 	user-data [ string! ]
 	return: [ integer! ]
 ] lib "HPDF_New"
