@@ -1,3 +1,10 @@
 RebHaruPDF
+==========
 
 REBOL binding for HaruPdf library.
+
+Contents
+--------
+- libhpdf.r : low level binding to the harupdf lib
+- haru-pdf.r : a little higher level OO-ish interface
+- sample_* : examples/test, some use/test low level functions, some use haru-pdf interface

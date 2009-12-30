@@ -4,7 +4,7 @@ REBOL [
 
 do %haru-pdf.r
 
-doc: hpdf-new "" "" 
+doc: hpdf-new 0 "" 
 page: hpdf-add-page doc
 hpdf-page-set-size page HPDF-A4 HPDF-PORTRAIT
 
